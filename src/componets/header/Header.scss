@@ -20,6 +20,18 @@
 
     .option {
       padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .flex {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      height: 45px;
+      margin-left: 15px;
+      border-radius: 50%;
     }
   }
 }
