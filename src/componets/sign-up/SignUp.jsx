@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-button/CustomButton";
@@ -45,6 +46,8 @@ class SignUp extends Component {
         password: "",
         confirmPassword: "",
       });
+
+      this.props.history.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -96,4 +99,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default withRouter(SignUp);

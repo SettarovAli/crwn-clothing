@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import toast from "react-hot-toast";
 
-import { signInWithGoogle } from "../../firebase/firebase.utils";
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
 import { withRouter } from "react-router-dom";
 
@@ -19,8 +20,24 @@ class SignIn extends Component {
     };
   }
 
-  handleSubmit = (e) => {
+  showToast = () => {
+    toast("You are successfully logged in!", {
+      duration: 4000,
+      style: { fontSize: "18px", fontWeight: "bold" },
+      icon: "🎈🎈🎈",
+    });
+  };
+
+  handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = this.state;
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      this.showToast();
+      this.props.history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
     this.setState({ email: "", password: "" });
   };
 
@@ -29,9 +46,10 @@ class SignIn extends Component {
     this.setState({ [name]: value });
   };
 
-  handleSignInWithGoogle = async (history) => {
+  handleSignInWithGoogle = async () => {
     await signInWithGoogle();
-    history.push("/");
+    this.showToast();
+    this.props.history.push("/");
   };
 
   render() {
@@ -61,7 +79,8 @@ class SignIn extends Component {
             <CustomButton type="submit">Sign in</CustomButton>
             <CustomButton
               isGoogleSignIn
-              onClick={() => this.handleSignInWithGoogle(this.props.history)}
+              type="button"
+              onClick={() => this.handleSignInWithGoogle()}
             >
               Sign in with Google
             </CustomButton>
