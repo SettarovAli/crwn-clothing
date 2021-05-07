@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { signInWithGoogle } from "../../firebase/firebase.utils";
 
+import { withRouter } from "react-router-dom";
+
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-button/CustomButton";
 
@@ -25,6 +27,11 @@ class SignIn extends Component {
   handleChange = (e) => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
+  };
+
+  handleSignInWithGoogle = async (history) => {
+    await signInWithGoogle();
+    history.push("/");
   };
 
   render() {
@@ -52,7 +59,10 @@ class SignIn extends Component {
           />
           <div className="buttons">
             <CustomButton type="submit">Sign in</CustomButton>
-            <CustomButton isGoogleSignIn onClick={signInWithGoogle}>
+            <CustomButton
+              isGoogleSignIn
+              onClick={() => this.handleSignInWithGoogle(this.props.history)}
+            >
               Sign in with Google
             </CustomButton>
           </div>
@@ -62,4 +72,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);

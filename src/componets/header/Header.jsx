@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+import avatar from "../../images/avatar.png";
 
 import "./Header.scss";
 
 const Header = ({ currentUser }) => {
-  console.log(currentUser);
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -24,7 +24,7 @@ const Header = ({ currentUser }) => {
           <div className="option flex" onClick={() => auth.signOut()}>
             SIGN OUT
             <img
-              src={currentUser.photoURL}
+              src={currentUser.photoURL ? currentUser.photoURL : avatar}
               alt="User avatar"
               className="avatar"
             />
