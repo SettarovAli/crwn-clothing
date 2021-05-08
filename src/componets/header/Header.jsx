@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 import toast from "react-hot-toast";
+import Progress from "../progress/Progress";
+import { connect } from "react-redux";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import avatar from "../../images/avatar.png";
@@ -13,17 +15,7 @@ const Header = ({ currentUser }) => {
     toast("You are logged out!", {
       duration: 4000,
       style: { fontSize: "18px", fontWeight: "bold" },
-      className: "",
-      // Custom Icon
       icon: "❌❌❌",
-      // Change colors of success/error/loading icon
-      iconTheme: {
-        primary: "#fff",
-        secondary: "#4CAF50f",
-      },
-      // Aria
-      role: "status",
-      ariaLive: "polite",
     });
   };
 
@@ -56,7 +48,7 @@ const Header = ({ currentUser }) => {
           </div>
         ) : (
           <Link to="/signin" className="option">
-            SIGN IN
+            <Progress />
           </Link>
         )}
       </div>
@@ -64,4 +56,8 @@ const Header = ({ currentUser }) => {
   );
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(Header);
