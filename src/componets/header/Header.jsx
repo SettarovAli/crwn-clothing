@@ -5,18 +5,38 @@ import toast from "react-hot-toast";
 import Progress from "../progress/Progress";
 import { connect } from "react-redux";
 
+import CartIcon from "../cart-icon/CartIcon";
+import CartDropdown from "../cart-dropdown/CartDropdown";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
-import avatar from "../../images/avatar.png";
 
 import "./Header.scss";
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hidden }) => {
   const showToast = () => {
     toast("You are logged out!", {
       duration: 4000,
       style: { fontSize: "18px", fontWeight: "bold" },
       icon: "❌❌❌",
     });
+  };
+
+  const showSignInOut = () => {
+    return currentUser ? (
+      <div
+        className="option flex"
+        onClick={() => {
+          auth.signOut();
+          showToast();
+        }}
+      >
+        SIGN OUT
+        <img src={currentUser.photoURL} alt="User avatar" className="avatar" />
+      </div>
+    ) : (
+      <Link to="/signin" className="option">
+        <Progress />
+      </Link>
+    );
   };
 
   return (
@@ -31,33 +51,17 @@ const Header = ({ currentUser }) => {
         <Link to="/contact" className="option">
           CONTACT
         </Link>
-        {currentUser ? (
-          <div
-            className="option flex"
-            onClick={() => {
-              auth.signOut();
-              showToast();
-            }}
-          >
-            SIGN OUT
-            <img
-              src={currentUser.photoURL ? currentUser.photoURL : avatar}
-              alt="User avatar"
-              className="avatar"
-            />
-          </div>
-        ) : (
-          <Link to="/signin" className="option">
-            <Progress />
-          </Link>
-        )}
+        {showSignInOut()}
+        <CartIcon />
       </div>
+      {hidden ? null : <CartDropdown />}
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden,
 });
 
 export default connect(mapStateToProps)(Header);

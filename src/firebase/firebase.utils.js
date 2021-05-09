@@ -2,8 +2,6 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
-import avatar from "../images/avatar.png";
-
 const config = {
   apiKey: "AIzaSyAOqRttel5ez64CyigYy1BGjipuBcEarrI",
   authDomain: "crwn-db-15f3f.firebaseapp.com",
@@ -32,7 +30,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   if (!snapShot.exists) {
     let { displayName, email, photoURL } = userAuth;
-    if (!photoURL) photoURL = avatar;
+    if (!photoURL) photoURL = "/images/avatar.png";
     const createdAt = new Date();
 
     try {
