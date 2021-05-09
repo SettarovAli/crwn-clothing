@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { toggleCartHidden } from "../../redux/cart/cartActions.js";
+import { selectCartItemsCount } from "../../redux/cart/cartSelectors.js";
 
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core/styles";
@@ -17,11 +18,11 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const CustomizedBadges = ({ toggleCartHidden, cartItems }) => {
+const CustomizedBadges = ({ toggleCartHidden, itemCount }) => {
   return (
     <div className="cart-icon" onClick={toggleCartHidden}>
       <IconButton aria-label="cart">
-        <StyledBadge badgeContent={cartItems} color="error">
+        <StyledBadge badgeContent={itemCount} color="error">
           <ShoppingCartIcon />
         </StyledBadge>
       </IconButton>
@@ -30,7 +31,7 @@ const CustomizedBadges = ({ toggleCartHidden, cartItems }) => {
 };
 
 const mapStateToProps = (state) => ({
-  cartItems: state.cart.cartItems.length,
+  itemCount: selectCartItemsCount(state),
 });
 
 const mapDispatchToProps = (dispatch) => {
