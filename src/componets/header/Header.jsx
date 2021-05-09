@@ -6,6 +6,10 @@ import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
 // import Progress from "../progress/Progress";
 import { connect } from "react-redux";
 
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "../../redux/user/userSelector";
+import { selectCartHidden } from "../../redux/cart/cartSelectors";
+
 import CartIcon from "../cart-icon/CartIcon";
 import CartDropdown from "../cart-dropdown/CartDropdown";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
@@ -69,9 +73,9 @@ const Header = ({ currentUser, hidden }) => {
   );
 };
 
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-  currentUser,
-  hidden,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCartHidden,
 });
 
 export default connect(mapStateToProps)(Header);
