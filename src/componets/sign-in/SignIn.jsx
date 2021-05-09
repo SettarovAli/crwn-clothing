@@ -3,8 +3,6 @@ import toast from "react-hot-toast";
 
 import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
-import { withRouter } from "react-router-dom";
-
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-button/CustomButton";
 
@@ -34,7 +32,6 @@ class SignIn extends Component {
     try {
       await auth.signInWithEmailAndPassword(email, password);
       this.showToast();
-      this.props.history.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +46,6 @@ class SignIn extends Component {
   handleSignInWithGoogle = async () => {
     await signInWithGoogle();
     this.showToast();
-    this.props.history.push("/");
   };
 
   render() {
@@ -91,4 +87,4 @@ class SignIn extends Component {
   }
 }
 
-export default withRouter(SignIn);
+export default SignIn;
