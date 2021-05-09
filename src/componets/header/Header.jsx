@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 import toast from "react-hot-toast";
-import Progress from "../progress/Progress";
+import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
+// import Progress from "../progress/Progress";
 import { connect } from "react-redux";
 
 import CartIcon from "../cart-icon/CartIcon";
@@ -30,11 +31,20 @@ const Header = ({ currentUser, hidden }) => {
         }}
       >
         SIGN OUT
-        <img src={currentUser.photoURL} alt="User avatar" className="avatar" />
+        {currentUser.photoURL ? (
+          <img
+            src={currentUser.photoURL}
+            alt="User avatar"
+            className="avatar"
+          />
+        ) : (
+          <AccountCircleTwoToneIcon className="avatar" color={"action"} />
+        )}
       </div>
     ) : (
       <Link to="/signin" className="option">
-        <Progress />
+        {/* <Progress /> */}
+        SIGN IN
       </Link>
     );
   };

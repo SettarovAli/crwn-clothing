@@ -30,7 +30,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   if (!snapShot.exists) {
     let { displayName, email, photoURL } = userAuth;
-    if (!photoURL) photoURL = "/images/avatar.png";
+    // if (!photoURL) photoURL = "/images/avatar.png";
     const createdAt = new Date();
 
     try {

@@ -17,11 +17,11 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const CustomizedBadges = ({ toggleCartHidden }) => {
+const CustomizedBadges = ({ toggleCartHidden, cartItems }) => {
   return (
     <div className="cart-icon" onClick={toggleCartHidden}>
       <IconButton aria-label="cart">
-        <StyledBadge badgeContent={2} color="error">
+        <StyledBadge badgeContent={cartItems} color="error">
           <ShoppingCartIcon />
         </StyledBadge>
       </IconButton>
@@ -29,10 +29,14 @@ const CustomizedBadges = ({ toggleCartHidden }) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  cartItems: state.cart.cartItems.length,
+});
+
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleCartHidden: () => dispatch(toggleCartHidden()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(CustomizedBadges);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomizedBadges);
