@@ -8,10 +8,8 @@ import { connect } from "react-redux";
 
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../../redux/user/userSelector";
-import { selectCartHidden } from "../../redux/cart/cartSelectors";
 
-import CartIcon from "../cart-icon/CartIcon";
-import CartDropdown from "../cart-dropdown/CartDropdown";
+import Drawer from "../drawer/Drawer";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
 import "./Header.scss";
@@ -66,16 +64,14 @@ const Header = ({ currentUser, hidden }) => {
           CONTACT
         </Link>
         {showSignInOut()}
-        <CartIcon />
+        <Drawer />
       </div>
-      {hidden ? null : <CartDropdown />}
     </div>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  hidden: selectCartHidden,
 });
 
 export default connect(mapStateToProps)(Header);

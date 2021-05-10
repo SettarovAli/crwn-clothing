@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import { toggleCartHidden } from "../../redux/cart/cartActions.js";
 import { selectCartItemsCount } from "../../redux/cart/cartSelectors.js";
 
 import Badge from "@material-ui/core/Badge";
@@ -19,9 +18,9 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const CustomizedBadges = ({ toggleCartHidden, itemCount }) => {
+const CustomizedBadges = ({ itemCount, onHandleClick }) => {
   return (
-    <div className="cart-icon" onClick={toggleCartHidden}>
+    <div className="cart-icon" onClick={onHandleClick}>
       <IconButton aria-label="cart">
         <StyledBadge badgeContent={itemCount} color="error">
           <ShoppingCartIcon />
@@ -35,10 +34,4 @@ const mapStateToProps = createStructuredSelector({
   itemCount: selectCartItemsCount,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleCartHidden: () => dispatch(toggleCartHidden()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomizedBadges);
+export default connect(mapStateToProps)(CustomizedBadges);
