@@ -8,6 +8,11 @@ export const selectShopCollections = createSelector(
   (shop) => shop.collections
 );
 
+export const selectCollectionsForPreview = createSelector(
+  [selectShopCollections],
+  (collections) => Object.values(collections)
+);
+
 export const selectCollection = memoize((collectionUrlParam) =>
   createSelector(
     [selectShopCollections],
