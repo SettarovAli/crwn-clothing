@@ -52,19 +52,22 @@ const Header = ({ currentUser, hidden }) => {
   };
 
   return (
-    <div className="header">
-      <Link className="logo-container" to="/">
-        <Logo className="logo" />
-      </Link>
-      <div className="options">
-        <Link to="/shop" className="option">
-          SHOP
+    <div className="header-container">
+      <div className="header">
+        <Link className="logo-container" to="/">
+          <Logo className="logo" />
         </Link>
-        <Link to="/contact" className="option">
-          CONTACT
-        </Link>
-        {showSignInOut()}
-        <Drawer />
+
+        <div className="options">
+          <Link to="/shop" className="option">
+            SHOP
+          </Link>
+          <Link to="/contact" className="option">
+            CONTACT
+          </Link>
+          {showSignInOut()}
+          <Drawer />
+        </div>
       </div>
     </div>
   );
