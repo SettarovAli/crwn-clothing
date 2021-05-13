@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: "Open Sans Condensed", sans-serif;
+  margin-top: 70px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
