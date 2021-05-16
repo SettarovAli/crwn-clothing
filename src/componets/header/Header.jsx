@@ -1,18 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 import toast from "react-hot-toast";
 import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
-// import Progress from "../progress/Progress";
 import { connect } from "react-redux";
 
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../../redux/user/userSelector";
 
 import Drawer from "../drawer/Drawer";
-import { ReactComponent as Logo } from "../../assets/crown.svg";
 
-import "./Header.scss";
+import {
+  HeaderContainer,
+  HeaderContainerInner,
+  LogoContainer,
+  LogoImage,
+  OptionsContainer,
+  OptionLink,
+  OptionFlex,
+  Avatar,
+} from "./HeaderStyles";
 
 const Header = ({ currentUser, hidden }) => {
   const showToast = () => {
@@ -25,51 +31,42 @@ const Header = ({ currentUser, hidden }) => {
 
   const showSignInOut = () => {
     return currentUser ? (
-      <div
-        className="option flex"
+      <OptionLink
+        as="div"
         onClick={() => {
           auth.signOut();
           showToast();
         }}
       >
-        SIGN OUT
-        {currentUser.photoURL ? (
-          <img
-            src={currentUser.photoURL}
-            alt="User avatar"
-            className="avatar"
-          />
-        ) : (
-          <AccountCircleTwoToneIcon className="avatar" color={"action"} />
-        )}
-      </div>
+        <OptionFlex>
+          SIGN OUT
+          {currentUser.photoURL ? (
+            <Avatar as="img" src={currentUser.photoURL} alt="User avatar" />
+          ) : (
+            <Avatar as={AccountCircleTwoToneIcon} color="action" />
+          )}
+        </OptionFlex>
+      </OptionLink>
     ) : (
-      <Link to="/signin" className="option">
-        {/* <Progress /> */}
-        SIGN IN
-      </Link>
+      <OptionLink to="/signin">SIGN IN</OptionLink>
     );
   };
 
   return (
-    <div className="header-container">
-      <div className="header">
-        <Link className="logo-container" to="/">
-          <Logo className="logo" />
-        </Link>
+    <HeaderContainer>
+      <HeaderContainerInner>
+        <LogoContainer to="/">
+          <LogoImage />
+        </LogoContainer>
 
-        <div className="options">
-          <Link to="/shop" className="option">
-            SHOP
-          </Link>
-          <Link to="/contact" className="option">
-            CONTACT
-          </Link>
+        <OptionsContainer>
+          <OptionLink to="/shop">SHOP</OptionLink>
+          <OptionLink to="/contact">CONTACT</OptionLink>
           {showSignInOut()}
           <Drawer />
-        </div>
-      </div>
-    </div>
+        </OptionsContainer>
+      </HeaderContainerInner>
+    </HeaderContainer>
   );
 };
 
