@@ -2,6 +2,8 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
+import keyBy from "lodash.keyby";
+
 const config = {
   apiKey: "AIzaSyAOqRttel5ez64CyigYy1BGjipuBcEarrI",
   authDomain: "crwn-db-15f3f.firebaseapp.com",
@@ -63,6 +65,21 @@ export const addCollectionAndDocuments = async (
   });
 
   return await batch.commit();
+};
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+
+  return keyBy(transformedCollection, "routeName");
 };
 
 export default firebase;
