@@ -8,6 +8,7 @@ import CollectionItem from "../../componets/collection-item/CollectionItem";
 import "./Collection.scss";
 
 const Collection = ({ collection }) => {
+  if (!collection) return null;
   const { title, items } = collection;
   return (
     <div className="collection">
