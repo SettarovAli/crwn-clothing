@@ -1,11 +1,11 @@
 import React from "react";
-import { auth } from "../../firebase/firebase.utils";
 import toast from "react-hot-toast";
 import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
 import { connect } from "react-redux";
 
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../../redux/user/userSelector";
+import { signOutStart } from "../../redux/user/userActions";
 
 import Drawer from "../drawer/Drawer";
 
@@ -20,7 +20,7 @@ import {
   Avatar,
 } from "./HeaderStyles";
 
-const Header = ({ currentUser, hidden }) => {
+const Header = ({ currentUser, hidden, signOutStart }) => {
   const showToast = () => {
     toast("You are logged out!", {
       duration: 4000,
@@ -34,7 +34,7 @@ const Header = ({ currentUser, hidden }) => {
       <OptionLink
         as="div"
         onClick={() => {
-          auth.signOut();
+          signOutStart();
           showToast();
         }}
       >
@@ -74,4 +74,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { signOutStart })(Header);

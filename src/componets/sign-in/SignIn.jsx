@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import toast from "react-hot-toast";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { selectErrorMessage } from "../../redux/user/userSelector";
 
-import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import Alert from "@material-ui/lab/Alert";
+
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from "../../redux/user/userActions";
 
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-button/CustomButton";
@@ -28,14 +36,9 @@ class SignIn extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    const { emailSignInStart } = this.props;
     const { email, password } = this.state;
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      this.showToast();
-    } catch (error) {
-      console.log(error);
-    }
-    this.setState({ email: "", password: "" });
+    emailSignInStart({ email, password });
   };
 
   handleChange = (e) => {
@@ -44,11 +47,12 @@ class SignIn extends Component {
   };
 
   handleSignInWithGoogle = async () => {
-    await signInWithGoogle();
+    await this.props.googleSignInStart();
     this.showToast();
   };
 
   render() {
+    const { errorMessage } = this.props;
     return (
       <div className="sign-in">
         <h2 className="title">I already have account</h2>
@@ -71,6 +75,13 @@ class SignIn extends Component {
             handleChange={this.handleChange}
             required
           />
+          {errorMessage ? (
+            <Alert
+              style={{ marginBottom: "20px" }}
+              severity="error"
+            >{`Account does not exist`}</Alert>
+          ) : null}
+
           <div className="buttons">
             <CustomButton type="submit">Sign in</CustomButton>
             <CustomButton
@@ -87,4 +98,11 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+const mapStateToProps = createStructuredSelector({
+  errorMessage: selectErrorMessage,
+});
+
+export default connect(mapStateToProps, {
+  googleSignInStart,
+  emailSignInStart,
+})(SignIn);
