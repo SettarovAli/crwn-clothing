@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -16,17 +16,15 @@ import CustomButton from "../custom-button/CustomButton";
 
 import "./SignIn.scss";
 
-class SignIn extends Component {
-  constructor(props) {
-    super(props);
+const SignIn = ({ emailSignInStart, googleSignInStart, errorMessage }) => {
+  const [userCredentials, setUserCredentials] = useState({
+    email: "",
+    password: "",
+  });
 
-    this.state = {
-      email: "",
-      password: "",
-    };
-  }
+  const { email, password } = userCredentials;
 
-  showToast = () => {
+  const showToast = () => {
     toast("You are successfully logged in!", {
       duration: 4000,
       style: { fontSize: "18px", fontWeight: "bold" },
@@ -34,69 +32,64 @@ class SignIn extends Component {
     });
   };
 
-  handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { emailSignInStart } = this.props;
-    const { email, password } = this.state;
     emailSignInStart({ email, password });
   };
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     const { value, name } = e.target;
-    this.setState({ [name]: value });
+    setUserCredentials({ ...userCredentials, [name]: value });
   };
 
-  handleSignInWithGoogle = async () => {
-    await this.props.googleSignInStart();
-    this.showToast();
+  const handleSignInWithGoogle = async () => {
+    await googleSignInStart();
+    showToast();
   };
 
-  render() {
-    const { errorMessage } = this.props;
-    return (
-      <div className="sign-in">
-        <h2 className="title">I already have account</h2>
-        <span>Sign in with your email and passwod</span>
+  return (
+    <div className="sign-in">
+      <h2 className="title">I already have account</h2>
+      <span>Sign in with your email and passwod</span>
 
-        <form onSubmit={this.handleSubmit}>
-          <FormInput
-            name="email"
-            type="email"
-            label="Email"
-            value={this.state.email}
-            handleChange={this.handleChange}
-            required
-          />
-          <FormInput
-            name="password"
-            type="password"
-            label="Password"
-            value={this.state.password}
-            handleChange={this.handleChange}
-            required
-          />
-          {errorMessage ? (
-            <Alert
-              style={{ marginBottom: "20px" }}
-              severity="error"
-            >{`Account does not exist`}</Alert>
-          ) : null}
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          name="email"
+          type="email"
+          label="Email"
+          value={email}
+          handleChange={handleChange}
+          required
+        />
+        <FormInput
+          name="password"
+          type="password"
+          label="Password"
+          value={password}
+          handleChange={handleChange}
+          required
+        />
+        {errorMessage ? (
+          <Alert
+            style={{ marginBottom: "20px" }}
+            severity="error"
+          >{`Account does not exist`}</Alert>
+        ) : null}
 
-          <div className="buttons">
-            <CustomButton type="submit">Sign in</CustomButton>
-            <CustomButton
-              isGoogleSignIn
-              type="button"
-              onClick={() => this.handleSignInWithGoogle()}
-            >
-              Sign in with Google
-            </CustomButton>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
+        <div className="buttons">
+          <CustomButton type="submit">Sign in</CustomButton>
+          <CustomButton
+            isGoogleSignIn
+            type="button"
+            onClick={() => handleSignInWithGoogle()}
+          >
+            Sign in with Google
+          </CustomButton>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   errorMessage: selectErrorMessage,
