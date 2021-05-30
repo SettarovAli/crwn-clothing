@@ -6,7 +6,9 @@ import {
   addItem,
   removeItem,
 } from "../../redux/cart/cartActions";
-import ClearItem from "../clear-item/ClearItem";
+
+import TouchIconComponent from "../touch-icon-component/TouchIconComponent";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -38,7 +40,11 @@ const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
       </div>
       <span className="price">{price}</span>
       <div className="remove-button" onClick={() => clearItem(cartItem)}>
-        <ClearItem size="default" />
+        <TouchIconComponent
+          Icon={DeleteIcon}
+          fontSize={"default"}
+          color={"error"}
+        />
       </div>
     </div>
   );

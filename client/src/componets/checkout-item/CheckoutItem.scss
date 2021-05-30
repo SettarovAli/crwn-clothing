@@ -6,9 +6,10 @@
   padding: 15px 0;
   font-size: 20px;
   align-items: center;
+  text-align: center;
 
   .image-container {
-    width: 23%;
+    width: 20%;
     padding-right: 15px;
 
     img {
@@ -18,13 +19,15 @@
   }
   .name,
   .quantity,
-  .price {
-    width: 23%;
+  .price,
+  .remove-button {
+    width: 20%;
   }
 
   .quantity {
     display: flex;
     align-items: center;
+    justify-content: center;
 
     .btn {
       cursor: pointer;
