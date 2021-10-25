@@ -1,1 +1,0 @@
-const ali = `My name `;
